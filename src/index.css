@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-.reset {
+/* .reset {
   position: absolute;
   top: 30px;
   right: 20px;
@@ -12,9 +12,9 @@
 @media (max-width: 900px) {
   .reset {
     /* Adjust the styles for smaller screens */
-    position: absolute;
+/* position: absolute;
     top: 90vh;
     bottom: 15px;
     right: 20px;
   }
-}
+} */

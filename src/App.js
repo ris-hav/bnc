@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Confetti from "react-confetti";
 
 function generateUniqueRandomNumber() {
-  const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const digits = new Array(10).fill(0).map((_, i) => i);
+  // const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const uniqueDigits = [];
   while (uniqueDigits.length !== 4) {
     const randomIndex = Math.floor(Math.random() * digits.length);
@@ -14,69 +15,63 @@ function generateUniqueRandomNumber() {
   return randomNumber;
 }
 const uniqueRandomNumber = generateUniqueRandomNumber();
+let mainNumber = uniqueRandomNumber;
+console.log(mainNumber);
 
 export default function App() {
   const [win, setWin] = useState(false);
   const [list, setList] = useState([]);
-  const [mainNumber, setMainNumber] = useState(uniqueRandomNumber);
+  // const [mainNumber, setMainNumber] = useState(uniqueRandomNumber);
+
   const [inputValue, setInputValue] = useState("");
+  const arr = String(mainNumber).split("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const arr = String(inputValue).split("");
-    const arr1 = String(mainNumber).split("");
-    let newBulls = 0;
-    let newCows = 0;
-    for (const [i, el] of arr.entries()) {
-      if (Number(arr1[i]) === Number(el)) {
-        newBulls++;
-      } else if (arr1.includes(arr[i])) {
-        newCows++;
-      }
-    }
-    newBulls === 4 && setWin(true);
-    setList((list) => [
-      ...list,
-      { inputValue, bulls: newBulls, cows: newCows },
-    ]);
-    // console.log("Submitted value:", inputValue);
-    console.log("Main value:", mainNumber);
+    const arr1 = String(inputValue).split("");
+    let bulls = 0;
+    let cows = 0;
+    arr1.forEach((el, i) => {
+      arr[i] === el ? (bulls += 1) : arr.includes(arr1[i]) && (cows += 1);
+    });
+    bulls === 4 && setWin(true);
+    setList((list) => [...list, { inputValue, bulls, cows }]);
     setInputValue("");
+    // let newBulls = 0;
+    // let newCows = 0;
+    // for (const [i, el] of arr1.entries()) {
+    //   if (Number(arr[i]) === Number(el)) {
+    //     newBulls++;
+    //   } else if (arr.includes(arr1[i])) {
+    //     newCows++;
+    //   }
+    // }
+    // setList((list) => [
+    //   ...list,
+    //   { inputValue, bulls: newBulls, cows: newCows },
+    // ]);
   };
 
   function handleReset() {
     setList([]);
     setWin(false);
-    setMainNumber(generateUniqueRandomNumber());
+    // setMainNumber(generateUniqueRandomNumber());
+    mainNumber = generateUniqueRandomNumber();
+    console.log(mainNumber);
   }
 
   return (
     <div className="App">
       {win ? (
-        <h2 style={{ color: "#262a7d" }}>
-          Yayyyy 🎊🎉!! Khub Bhaalo, ekhon ghumiye poro sonamoni 🫶🏻.
-        </h2>
+        <h2 style={{ color: "#262a7d" }}>Yayyyy 🎊🎉!! Well Done Macha 😎</h2>
       ) : (
-        <h2>Siyana's & Extra Siyana's</h2>
+        <h2>
+          <span style={{ color: "#9b1212" }}>Bulls</span> &
+          <span style={{ color: "#1c7eca" }}> Cows</span> 📈📉
+        </h2>
       )}
       {win && <Confetti />}
-      {list.length > 0 && (
-        <button
-          className="reset"
-          onClick={handleReset}
-          style={{
-            padding: "5px 12px",
-            backgroundColor: "black", // Red color as an example
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            fontSize: "13px",
-            cursor: "pointer",
-          }}
-        >
-          Reset
-        </button>
-      )}
+
       <form onSubmit={handleSubmit}>
         <input
           type="number"
@@ -116,20 +111,34 @@ export default function App() {
           <h3>
             <span style={{ fontWeight: "100" }}>{index + 1}. </span>
             <span style={{ color: "darkgrey", marginLeft: "5px" }}>
-              {" "}
               {item.inputValue}
             </span>
-            <span style={{ color: "green", marginLeft: "10px" }}>
-              {" "}
+            <span style={{ color: "#9b1212", marginLeft: "10px" }}>
               {item.bulls}B
             </span>
-            <span style={{ color: "orange", marginLeft: "10px" }}>
-              {" "}
+            <span style={{ color: "#1c7eca", marginLeft: "10px" }}>
               {item.cows}C
-            </span>{" "}
+            </span>
           </h3>
         </div>
       ))}
+      {list.length > 0 && (
+        <button
+          className="reset"
+          onClick={handleReset}
+          style={{
+            padding: "5px 12px",
+            backgroundColor: "black", // Red color as an example
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            fontSize: "13px",
+            cursor: "pointer",
+          }}
+        >
+          Reset
+        </button>
+      )}
     </div>
   );
 }
