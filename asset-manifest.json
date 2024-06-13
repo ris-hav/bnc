@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/bnc/static/css/main.fc5c2c69.css",
+    "main.js": "/bnc/static/js/main.57c6b5f1.js",
+    "index.html": "/bnc/index.html",
+    "main.fc5c2c69.css.map": "/bnc/static/css/main.fc5c2c69.css.map",
+    "main.57c6b5f1.js.map": "/bnc/static/js/main.57c6b5f1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fc5c2c69.css",
+    "static/js/main.57c6b5f1.js"
+  ]
+}
